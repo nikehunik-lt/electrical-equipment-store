@@ -1,0 +1,31 @@
+employee_key,employee_id,first_name,last_name,position,hire_date
+1,1,Jeremy,Morse,Support Specialist,2023-05-11
+2,2,Anne,Daniel,Sales Associate,2022-07-26
+3,3,Gloria,Thomas,Warehouse Worker,2024-10-10
+4,4,Lee,Leon,Warehouse Worker,2023-12-16
+5,5,Stephanie,Vasquez,Warehouse Worker,2023-03-08
+6,6,Kendra,Smith,Cashier,2026-08-14
+7,7,Veronica,Rogers,Sales Associate,2026-07-19
+8,8,Roy,Sloan,Cashier,2023-10-04
+9,9,Philip,Ellis,Cashier,2021-11-14
+10,10,Isaiah,Brown,Cashier,2024-06-15
+11,11,Brandon,Sanchez,Support Specialist,2025-12-18
+12,12,Matthew,Hester,Support Specialist,2026-04-02
+13,13,Brandon,Ashley,Sales Manager,2022-08-09
+14,14,Heather,Martinez,Sales Manager,2026-03-21
+15,15,Renee,Floyd,Sales Associate,2023-07-14
+16,16,Christopher,Chapman,Sales Associate,2024-07-09
+17,17,Nicholas,Bender,Support Specialist,2024-07-04
+18,18,Amanda,Garrett,Sales Manager,2024-11-04
+19,19,Emily,Fitzgerald,Sales Manager,2025-04-10
+20,20,Katherine,Gordon,Cashier,2026-04-06
+21,21,Jeffrey,Tate,Warehouse Worker,2024-10-28
+22,22,Paul,Martin,Warehouse Worker,2022-02-07
+23,23,Christopher,Hunt,Warehouse Worker,2026-06-02
+24,24,Ashley,Cooper,Support Specialist,2025-05-10
+25,25,Robert,Taylor,Warehouse Worker,2022-11-07
+26,26,Jennifer,Barrett,Warehouse Worker,2026-04-22
+27,27,John,Miller,Cashier,2025-10-24
+28,28,Jennifer,Le,Sales Associate,2023-10-11
+29,29,Rebecca,Martinez,Support Specialist,2023-12-04
+30,30,Nathan,James,Sales Manager,2025-09-13
