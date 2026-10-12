@@ -1,3 +1,4 @@
+-- Query 1: Top 10 customers by order value
 select
     c.customer_id,
     c.first_name || ' ' || c.last_name as customer_name,
@@ -11,7 +12,7 @@ group by c.customer_id, c.first_name, c.last_name, c.email
 order by total_spent desc
 limit 10;
 
-
+-- Query 2: Sales by category over the past year
 select
     cat.name as category,
     count(oi.order_item_id) as items_sold,
@@ -26,7 +27,7 @@ where o.order_date >= now() - interval '1 year'
 group by cat.name
 order by revenue desc;
 
-
+-- Query 3: Average bill by month
 select
     to_char(o.order_date, 'YYYY-MM') as month,
     count(distinct o.order_id) as orders_count,

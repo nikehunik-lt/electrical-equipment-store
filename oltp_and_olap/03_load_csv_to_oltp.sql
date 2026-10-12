@@ -5,7 +5,7 @@ create temp table temp_categories (
 );
 
 copy temp_categories(name, description)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/categories.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/categories.csv'
 with (format csv, header true, delimiter ',');
 
 insert into categories (name, description)
@@ -17,14 +17,14 @@ where not exists (
 
 drop table temp_categories;
 
-
+-- brands
 create temp table temp_brands (
     name varchar(100),
     country varchar(50)
 );
 
 copy temp_brands(name, country)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/brands.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/brands.csv'
 with (format csv, header true, delimiter ',');
 
 insert into brands (name, country)
@@ -36,7 +36,7 @@ where not exists (
 
 drop table temp_brands;
 
-
+-- suppliers
 create temp table temp_suppliers (
     name varchar(150),
     contact_name varchar(100),
@@ -48,7 +48,7 @@ create temp table temp_suppliers (
 );
 
 copy temp_suppliers(name, contact_name, email, phone, address, city, country)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/suppliers.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/suppliers.csv'
 with (format csv, header true, delimiter ',');
 
 insert into suppliers (name, contact_name, email, phone, address, city, country)
@@ -60,7 +60,7 @@ where not exists (
 
 drop table temp_suppliers;
 
-
+-- products
 create temp table temp_products (
     name varchar(200),
     description text,
@@ -74,7 +74,7 @@ create temp table temp_products (
 );
 
 copy temp_products(name, description, sku, category_id, brand_id, supplier_id, price, cost, stock_quantity)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/products.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/products.csv'
 with (format csv, header true, delimiter ',');
 
 insert into products (name, description, sku, category_id, brand_id, supplier_id, price, cost, stock_quantity)
@@ -86,7 +86,7 @@ where not exists (
 
 drop table temp_products;
 
-
+-- customers
 create temp table temp_customers (
     first_name varchar(50),
     last_name varchar(50),
@@ -98,7 +98,7 @@ create temp table temp_customers (
 );
 
 copy temp_customers(first_name, last_name, email, phone, address, city, country)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/customers.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/customers.csv'
 with (format csv, header true, delimiter ',');
 
 insert into customers (first_name, last_name, email, phone, address, city, country)
@@ -110,7 +110,7 @@ where not exists (
 
 drop table temp_customers;
 
-
+-- employees
 create temp table temp_employees (
     first_name varchar(50),
     last_name varchar(50),
@@ -121,7 +121,7 @@ create temp table temp_employees (
 );
 
 copy temp_employees(first_name, last_name, email, phone, position, hire_date)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/employees.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/employees.csv'
 with (format csv, header true, delimiter ',');
 
 insert into employees (first_name, last_name, email, phone, position, hire_date)
@@ -133,7 +133,7 @@ where not exists (
 
 drop table temp_employees;
 
-
+-- orders
 create temp table temp_orders (
     customer_id int,
     employee_id int,
@@ -144,7 +144,7 @@ create temp table temp_orders (
 );
 
 copy temp_orders(customer_id, employee_id, order_date, status, total_amount, shipping_address)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/orders.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/orders.csv'
 with (format csv, header true, delimiter ',');
 
 insert into orders (customer_id, employee_id, order_date, status, total_amount, shipping_address)
@@ -159,7 +159,7 @@ where not exists (
 
 drop table temp_orders;
 
-
+-- order_items
 create temp table temp_order_items (
     order_id int,
     product_id int,
@@ -169,7 +169,7 @@ create temp table temp_order_items (
 );
 
 copy temp_order_items(order_id, product_id, quantity, unit_price, discount)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/order_items.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/order_items.csv'
 with (format csv, header true, delimiter ',');
 
 insert into order_items (order_id, product_id, quantity, unit_price, discount)
@@ -184,7 +184,7 @@ where not exists (
 
 drop table temp_order_items;
 
-
+-- payment
 create temp table temp_payments (
     order_id int,
     payment_date timestamp,
@@ -194,7 +194,7 @@ create temp table temp_payments (
 );
 
 copy temp_payments(order_id, payment_date, amount, payment_method, status)
-from '/Users/nikitastepanenko/Desktop/project/csv_data/payments.csv'
+from '/Users/nikitastepanenko/Desktop/coursework/csv_data/payments.csv'
 with (format csv, header true, delimiter ',');
 
 insert into payments (order_id, payment_date, amount, payment_method, status)
@@ -208,7 +208,7 @@ where not exists (
 
 drop table temp_payments;
 
-
+-- load check 
 select 'categories' as table_name, count(*) from categories
 union all
 select 'brands', count(*) from brands

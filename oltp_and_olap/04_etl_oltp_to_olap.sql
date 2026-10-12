@@ -1,3 +1,4 @@
+-- Filling in the 'dim_date' field (from 2020 to 2030)
 insert into dim_date (date_key, full_date, day, month, month_name, quarter, year, day_of_week)
 select
     to_char(d, 'YYYYMMDD')::int,
@@ -13,7 +14,7 @@ where not exists (
     select 1 from dim_date dd where dd.date_key = to_char(d, 'YYYYMMDD')::int
 );
 
-
+-- Filling in 'dim_category'
 create extension if not exists dblink;
 insert into dim_category (category_id, name, description)
 select c.category_id, c.name, c.description
@@ -25,7 +26,7 @@ where not exists (
     select 1 from dim_category dc where dc.category_id = c.category_id
 );
 
-
+-- Filling in 'dim_brand'
 insert into dim_brand (brand_id, name, country)
 select b.brand_id, b.name, b.country
 from dblink(
@@ -36,7 +37,7 @@ where not exists (
     select 1 from dim_brand db where db.brand_id = b.brand_id
 );
 
-
+-- Filling in 'dim_supplier'
 insert into dim_supplier (supplier_id, name, city, country)
 select s.supplier_id, s.name, s.city, s.country
 from dblink(
@@ -47,7 +48,7 @@ where not exists (
     select 1 from dim_supplier ds where ds.supplier_id = s.supplier_id
 );
 
-
+-- Filling in 'dim_employee'
 insert into dim_employee (employee_id, first_name, last_name, position, hire_date)
 select e.employee_id, e.first_name, e.last_name, e.position, e.hire_date
 from dblink(
@@ -58,8 +59,8 @@ where not exists (
     select 1 from dim_employee de where de.employee_id = e.employee_id
 );
 
-
--- Крок 1: Закрити старі записи, якщо дані змінилися
+-- SCD Type 2 for dim_customer
+-- Step 1: Close the old records if the data has changed
 update dim_customer dc
 set end_date = now(),    
     is_current = false
@@ -75,7 +76,7 @@ where dc.customer_id = c.customer_id
        or coalesce(dc.city, '') <> coalesce(c.city, '')       
        or coalesce(dc.country, '') <> coalesce(c.country, ''));
 
--- Крок 2: Вставити нові версії
+-- Step 2: Insert the new versions
 insert into dim_customer (customer_id, first_name, last_name, email, city, country, start_date, is_current)
 select c.customer_id, c.first_name, c.last_name, c.email, c.city, c.country, now(), true
 from dblink(
@@ -88,7 +89,8 @@ where not exists (
       and dc.is_current = true
 );
 
-
+-- SCD Type 2 for dim_product
+-- Step 1: Close the old records if the data has changed
 update dim_product dp
 set end_date = now(),
     is_current = false
@@ -104,6 +106,7 @@ where dp.product_id = p.product_id
        or dp.category_id <> p.category_id
        or dp.brand_id <> p.brand_id);
 
+-- Step 2: Insert the new versions
 insert into dim_product (product_id, name, sku, price, cost, category_id, brand_id, start_date, is_current)
 select p.product_id, p.name, p.sku, p.price, p.cost, p.category_id, p.brand_id, now(), true
 from dblink(
@@ -116,7 +119,7 @@ where not exists (
       and dp.is_current = true
 );
 
-
+--Filling in 'fact_sales'
 create temp table temp_source_sales as
 select 
     o.order_id,
@@ -163,7 +166,7 @@ where ts.status not in ('cancelled')
 
 drop table temp_source_sales;
 
-
+-- Filling in the fact_inventory
 create temp table temp_source_inventory as
 select 
     product_id,
@@ -193,7 +196,7 @@ where not exists (
 
 drop table temp_source_inventory;
 
-
+-- Filling in the bridge_product_supplier form
 create temp table temp_source_bridge as
 select 
     product_id,
@@ -221,7 +224,7 @@ where not exists (
 
 drop table temp_source_bridge
 
-
+-- ETL validation
 select 'dim_date' as tbl, count(*) from dim_date
 union all
 select 'dim_customer', count(*) from dim_customer

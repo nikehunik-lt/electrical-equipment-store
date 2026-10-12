@@ -1,3 +1,4 @@
+-- Query 1: Revenue and profit by month
 select
     dd.year,
     dd.month,
@@ -10,20 +11,7 @@ join dim_date dd on fs.date_key = dd.date_key
 group by dd.year, dd.month, dd.month_name
 order by dd.year, dd.month;
 
-select 
-    fs.order_id,
-    dp.name as product_name,
-    fs.quantity,
-    fs.unit_price,
-    fs.discount,
-    dp.cost,
-    round(fs.unit_price * (1 - fs.discount / 100), 2) as final_price_per_item,
-    fs.profit
-from fact_sales fs
-join dim_product dp on fs.product_key = dp.product_key
-where fs.profit < 0
-limit 10;
-
+-- Query 2: Top 5 categories by revenue
 select
     dc.name as category,
     sum(fs.total_amount) as revenue,
@@ -35,7 +23,7 @@ group by dc.name
 order by profit desc
 limit 5;
 
-
+-- Query 3: Number of active customers by country
 select
     dc.country,
     count(distinct dc.customer_id) as active_customers,
